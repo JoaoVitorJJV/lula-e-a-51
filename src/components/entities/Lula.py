@@ -7,6 +7,7 @@ game_config = GameConfig()
 class Player(pg.sprite.Sprite):
     speed = 9
     score = 0
+    can_shoot = False
 
     def __init__(self):
         super().__init__()
@@ -50,11 +51,11 @@ class Player(pg.sprite.Sprite):
             self.rect.y = self.rect.y + (1 * self.speed)
             self.player_pos_y = self.rect.y
 
-    def move(self):
+    def move(self, group=None):
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_o]:
-            print(f"Sua pontuação é: {self.score}")
+        if self.can_shoot and group is not None:
+            self.shoot(group)
 
         if keys[pg.K_d]:
             self.update("right")
@@ -70,3 +71,11 @@ class Player(pg.sprite.Sprite):
 
     def get_score(self):
         return self.score
+
+    def shoot(self, group):
+        start_ticks = pg.time.get_ticks()
+        seconds = (pg.time.get_ticks() - start_ticks) / 1000
+        # print(seconds)
+        # Make the player shoot
+
+

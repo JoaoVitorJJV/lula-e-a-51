@@ -14,19 +14,19 @@ class TextInterface:
 
     def draw_level_text(self, screen, level, color):
         text = ""
+        text2 = ""
         if level == 1:
             text = "Pegue a garrafa de 51!"
         elif level == 2:
             text = "Clique no bolsonabo para passar!"
         elif level == 3:
-            text = "Faça alguma coisa"
-        # text2 = "de 51!"
+            text = "Pegue os caroços de açaí e derrote a polícia!"
+            text2 = "Use o mouse para atirar"
         text_surface = self.font.render(text, True, color)
-        # second_text = self.font.render(text2, True, "white")
-        # font_score = pg.font.SysFont("Comic Sans Ms", 23, True)
         screen.blit(text_surface, (4, 0))
-        # screen.blit(second_text, (4, 50))
-
+        if level == 3:
+            text_surface2 = self.font.render(text2, True, color)
+            screen.blit(text_surface2, (4, 28))
 
     def draw_score(self, screen, level, color):
         score = f"Pontuação: {self.player.get_score()}"

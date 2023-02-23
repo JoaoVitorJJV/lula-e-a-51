@@ -20,7 +20,7 @@ cachaca = Cachaca()
 bozonaro = BolsonaroEnemy()
 group = pg.sprite.RenderPlain()
 group.add(player)
-group.add(cachaca)
+
 
 # Text GUI
 text_interface = TextInterface()
@@ -29,20 +29,26 @@ text_interface = TextInterface()
 class Game:
     sound_played = 1
     level = 1
+    next_levels_points = {
+        "1_level": 2,
+        "2_level": 0,
+        "3_level": 200
+    }
 
     def init_game(self, events):
         player_score = self.get_score()
-        level = game_config.get_level()
+        level = 3# game_config.get_level()
 
         # Levels
         if level == 1:
+            group.add(cachaca)
             player.move()
             cachaca.check_colision(player.rect)
             screen.blit(bg, (0, 0))
             text_interface.draw_level_text(screen, level, "white")
             text_interface.draw_score(screen, level, "white")
             group.draw(screen)
-            if player_score == 2 and self.sound_played == 1:
+            if player_score == self.next_levels_points["1_level"] and self.sound_played == 1:
                 self.play_sound_effect_level()
                 self.sound_played += 1
                 group.add(bozonaro)
@@ -63,8 +69,9 @@ class Game:
             group.draw(screen)
 
         elif level == 3:
+            player.can_shoot = True
             new_bg = pg.image.load(os.path.join('src/img', 'orla-de-icoaraci.jpg'))
-            player.move()
+            player.move(group)
             screen.blit(new_bg, (0, 0))
             text_interface.draw_level_text(screen, level, "black")
             text_interface.draw_score(screen, level, "black")
